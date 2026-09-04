@@ -11,6 +11,8 @@ fi
 
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
+APP="$TMP/quiz-cambel"
+mkdir "$APP"
 
 rsync -a \
   --exclude node_modules \
@@ -23,11 +25,14 @@ rsync -a \
   --exclude vendor/chromium-bin \
   --exclude HANDOFF.md \
   --exclude HANDOFF.local.md \
-  "$ROOT/" "$TMP/"
+  "$ROOT/" "$APP/"
 
-cd "$TMP"
+cd "$APP"
 ARGS=(deploy --prod --yes)
 if [[ -n "${VERCEL_TOKEN:-}" ]]; then
   ARGS+=(--token "$VERCEL_TOKEN")
+fi
+if [[ -n "${VERCEL_SCOPE:-}" ]]; then
+  ARGS+=(--scope "$VERCEL_SCOPE")
 fi
 vercel "${ARGS[@]}"
