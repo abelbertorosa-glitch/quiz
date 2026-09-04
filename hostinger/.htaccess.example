@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Quiz Next.js (Vercel) — não servir arquivo estático com esse prefixo
+RewriteRule ^diagnostico(/.*)?$ quiz-proxy.php [L,QSA]
+
+# LP na raiz
+DirectoryIndex index.html

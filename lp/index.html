@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Diagnóstico da sua oficina · Cambel</title>
+    <meta
+      name="description"
+      content="Descubra se custo fixo, markup, caixa e capacidade produtiva da sua oficina estão no patamar das que entregam resultado."
+    />
+    <link rel="icon" href="./assets/logo-cambel.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-logo" href="#inicio">
+          <img src="./assets/logo-cambel.png" alt="Cambel Contabilidade" />
+        </a>
+        <input id="nav-toggle" class="nav-toggle" type="checkbox" />
+        <label class="nav-burger" for="nav-toggle">
+          <span class="sr-only">Abrir menu</span>
+        </label>
+        <nav class="site-nav" aria-label="Seções">
+          <a href="#inicio">Início</a>
+          <a href="#medimos">O que medimos</a>
+          <a href="#como">Como funciona</a>
+          <a href="#comecar">Começar</a>
+          <a class="cta cta--header" href="/diagnostico">Fazer o diagnóstico</a>
+        </nav>
+      </div>
+    </header>
+    <main class="page">
+      <section class="hero" id="inicio" aria-label="Oferta do diagnóstico">
+        <div class="collage">
+          <div class="block block--a"></div>
+          <div class="block block--b"></div>
+          <div class="photo">
+            <img src="./assets/logo-cambel.png" alt="Cambel Contabilidade" />
+          </div>
+          <div class="card">
+            <h1>
+              Sua oficina entrega o resultado que a
+              <span class="accent">capacidade</span> já permite?
+            </h1>
+            <p class="lead">
+              19 perguntas sobre custo, markup, caixa, hora vendida e gestão.
+            </p>
+            <a class="cta" href="/diagnostico">Fazer o diagnóstico</a>
+            <p class="fine-print">Gratuito · resultado na hora</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="band" id="medimos">
+        <div class="wrap">
+          <h2>Quatro frentes. Um <span class="accent">laudo</span>.</h2>
+          <p class="band-lead">
+            Cruza as respostas. Cada bloco vem do laudo técnico da Cambel.
+          </p>
+          <ol class="measure">
+            <li>
+              <span class="num">01</span>
+              <div>
+                <h3>Financeiro</h3>
+                <p class="quote">“Meu custo fixo cabe no faturamento?”</p>
+                <p>
+                  Custo fixo, markup das peças, reserva de caixa e antecipação
+                  de cartão, inclusive a idade da oficina no cruzamento.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="num">02</span>
+              <div>
+                <h3>Operação</h3>
+                <p class="quote">“A estrutura vende a hora que deveria?”</p>
+                <p>
+                  Mecânicos, hora mínima, elevadores, checklist de entrada e
+                  saída e produtividade por técnico.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="num">03</span>
+              <div>
+                <h3>Gestão</h3>
+                <p class="quote">“A oficina anda sem o dono no pátio?”</p>
+                <p>
+                  Processos, dono como gestor de pátio, sistema de gestão e
+                  software de precificação de mão de obra.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="num">04</span>
+              <div>
+                <h3>Comercial</h3>
+                <p class="quote">“De onde vem e volta o cliente?”</p>
+                <p>
+                  Canal de chegada, conversão de orçamentos, pós-venda,
+                  recorrência e faturamento diário.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="band band--soft" id="como">
+        <div class="wrap">
+          <h2>Em <span class="accent">3 passos</span>, o laudo da oficina.</h2>
+          <ol class="steps">
+            <li>
+              <span class="num">01</span>
+              <div>
+                <h3>Responda ao diagnóstico</h3>
+                <p>
+                  Dados da oficina e 19 perguntas. Leva poucos minutos.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="num">02</span>
+              <div>
+                <h3>Cruzamos as respostas</h3>
+                <p>
+                  Custo fixo, caixa, capacidade produtiva, hora mínima e
+                  elevadores por mecânico.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span class="num">03</span>
+              <div>
+                <h3>Receba o laudo e o PDF</h3>
+                <p>
+                  Resultado na hora e PDF para guardar. Se a capacidade ficou
+                  acima do faturamento, o próximo passo é a consultoria.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="band band--navy" id="comecar">
+        <div class="wrap wrap--cta">
+          <h2>Pronto para ver o número?</h2>
+          <p class="band-lead band-lead--light">
+            19 perguntas. Laudo em PDF na hora.
+          </p>
+          <a class="cta" href="/diagnostico">Fazer o diagnóstico</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      fetch("./site.config.json")
+        .then((r) => r.json())
+        .then((cfg) => {
+          const incoming = new URLSearchParams(location.search);
+          const local =
+            location.hostname === "localhost" ||
+            location.hostname === "127.0.0.1";
+          const raw = cfg.quizUrl || "/diagnostico";
+          const links = document.querySelectorAll("a.cta");
+          for (const a of links) {
+            const url = raw.startsWith("http")
+              ? new URL(raw)
+              : new URL(raw, local ? "http://localhost:3000" : location.origin);
+            for (const [k, v] of incoming) {
+              if (k.startsWith("utm_") || k === "gclid" || k === "fbclid") {
+                url.searchParams.set(k, v);
+              }
+            }
+            a.href = url.href;
+          }
+        })
+        .catch(() => {});
+
+      const header = document.querySelector(".site-header");
+      const toggle = document.getElementById("nav-toggle");
+
+      function headerHeight() {
+        return header ? Math.round(header.getBoundingClientRect().height) : 0;
+      }
+
+      function syncHeaderVar() {
+        const hh = headerHeight();
+        document.documentElement.style.setProperty("--header-h", `${hh}px`);
+        document.documentElement.style.setProperty(
+          "--stage-h",
+          `${Math.max(0, window.innerHeight - hh)}px`,
+        );
+      }
+
+      function sectionTop(el) {
+        return Math.max(
+          0,
+          Math.round(window.scrollY + el.getBoundingClientRect().top - headerHeight()),
+        );
+      }
+
+      let scrollGen = 0;
+
+      function scrollToSection(id, instant) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const top = sectionTop(el);
+        const reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        const jump =
+          instant || reduce || Math.abs(window.scrollY - top) < 2;
+        const gen = ++scrollGen;
+        if (jump) {
+          window.scrollTo(0, top);
+          return;
+        }
+        window.scrollTo({ top, behavior: "smooth" });
+        const snap = () => {
+          if (gen !== scrollGen) return;
+          const y = sectionTop(el);
+          if (Math.abs(window.scrollY - y) > 1) window.scrollTo(0, y);
+        };
+        window.addEventListener("scrollend", snap, { once: true });
+        window.setTimeout(snap, 900);
+      }
+
+      function idFromHref(href) {
+        const id = (href || "").replace(/^#/, "");
+        return document.getElementById(id) ? id : "";
+      }
+
+      document
+        .querySelectorAll('.site-nav a[href^="#"], .site-logo[href^="#"]')
+        .forEach((link) => {
+          link.addEventListener("click", (event) => {
+            const id = idFromHref(link.getAttribute("href"));
+            if (!id) return;
+            event.preventDefault();
+            if (toggle) toggle.checked = false;
+            scrollToSection(id, false);
+            history.pushState(null, "", `#${id}`);
+          });
+        });
+
+      syncHeaderVar();
+      window.addEventListener("resize", syncHeaderVar);
+      const initial = idFromHref(location.hash);
+      if (initial) {
+        requestAnimationFrame(() => scrollToSection(initial, true));
+      }
+
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document
+          .querySelectorAll("h1, h2, h3, p, a.cta, .site-nav a")
+          .forEach((el, i) => {
+            el.classList.add("text-wipe");
+            el.style.animationDelay = `${Math.min(i * 0.03, 0.45)}s`;
+          });
+      }
+    </script>
+  </body>
+</html>
