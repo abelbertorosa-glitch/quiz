@@ -4,16 +4,20 @@
 Tráfego pago / orgânico
         │
         v
-Hostinger (domínio cambel.srv.br)
-  lp/                         HTML estático
+Hostinger (domínio da LP de anúncio · public_html)
+  lp/                         HTML estático + pixels
   /diagnostico*  ──proxy──►  Vercel Next.js
                               src/
                               /api/pdf/[id]  Chromium
 ```
 
+O site institucional `www.cambel.srv.br` (GreatPages) **não** é esse
+`public_html`. Tráfego pago usa Hostinger próprio; o quiz nunca é servido
+pelo PHP, só encaminhado.
+
 ## Por que dois hosts
 
-- **Hostinger:** LP, pixels, domínio da Cambel, tráfego.
+- **Hostinger:** LP, pixels, domínio de anúncio, tráfego.
 - **Vercel:** App Router, Server Actions, PDF com Chromium (`@sparticuz/chromium`).
   Lambda não roda bem atrás de PHP. O Chromium do PDF **não** pode abrir o
   domínio do proxy — isso resulta em `fetch failed`.

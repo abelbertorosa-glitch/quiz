@@ -12,7 +12,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "dev:lp": "npx --yes serve lp -p 4173"
+    "dev:lp": "npx --yes serve lp -p 4173",
+    "pack:hostinger": "node scripts/pack-hostinger.mjs",
+    "deploy:vercel": "bash scripts/deploy-vercel.sh"
   },
   "dependencies": {
     "@sparticuz/chromium": "148.0.0",

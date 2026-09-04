@@ -1,6 +1,7 @@
 # LP de tráfego
 
-Landing da Cambel. Roda na **Hostinger**, no domínio `cambel.srv.br`.
+Landing da Cambel. Roda na **Hostinger**, no domínio de tráfego pago
+(não no site institucional GreatPages).
 
 O quiz Next.js **não** mora aqui. O CTA desta pasta aponta para `/diagnostico`
 (proxy Hostinger → Vercel).

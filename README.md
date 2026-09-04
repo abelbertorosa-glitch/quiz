@@ -5,9 +5,14 @@ Quiz de diagnóstico empresarial para oficinas mecânicas, da
 
 | Peça | Onde | Pasta |
 |------|------|-------|
-| LP de tráfego | Hostinger | `lp/` |
+| LP de tráfego | Hostinger (`public_html`) | `lp/` |
 | Quiz + PDF | Vercel · path `/diagnostico` | `src/` |
 | Proxy Hostinger → Vercel | Hostinger | `hostinger/` |
+
+```bash
+pnpm deploy:vercel          # quiz + PDF (CLI, sem .git)
+pnpm pack:hostinger         # gera dist/hostinger para o public_html
+```
 
 ## Local
 

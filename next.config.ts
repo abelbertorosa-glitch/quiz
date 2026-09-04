@@ -1,5 +1,14 @@
 import type { NextConfig } from "next";
 
+function hostOf(value?: string): string | undefined {
+  if (!value) return undefined;
+  try {
+    return new URL(value.includes("://") ? value : `https://${value}`).host;
+  } catch {
+    return undefined;
+  }
+}
+
 const nextConfig: NextConfig = {
   basePath: "/diagnostico",
   experimental: {
@@ -7,8 +16,12 @@ const nextConfig: NextConfig = {
       allowedOrigins: [
         "cambel.srv.br",
         "www.cambel.srv.br",
+        "cambelcontabilidade.com.br",
+        "www.cambelcontabilidade.com.br",
+        hostOf(process.env.NEXT_PUBLIC_SITE_ORIGIN),
+        process.env.VERCEL_URL,
         "localhost:3000",
-      ],
+      ].filter((host): host is string => Boolean(host)),
     },
   },
   async redirects() {

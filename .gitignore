@@ -36,6 +36,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+/dist/
+
+# origem Vercel colada no public_html (não versionar URL de deploy)
+hostinger/quiz-origin.php
 
 # Chromium bin copiado no postinstall/prebuild
 /vendor/chromium-bin/
