@@ -10,6 +10,7 @@ function hostOf(value?: string): string | undefined {
 }
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   basePath: "/diagnostico",
   experimental: {
     serverActions: {
@@ -18,6 +19,10 @@ const nextConfig: NextConfig = {
         "www.cambel.srv.br",
         "cambelcontabilidade.com.br",
         "www.cambelcontabilidade.com.br",
+        "quiz.cambel.srv.br",
+        "diagnostico.cambel.srv.br",
+        "diagnostico.cambelcontabilidade.com.br",
+        "179.197.65.2:3060",
         hostOf(process.env.NEXT_PUBLIC_SITE_ORIGIN),
         process.env.VERCEL_URL,
         "localhost:3000",
@@ -37,7 +42,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
-  serverExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
+  serverExternalPackages: [
+    "puppeteer-core",
+    "@sparticuz/chromium",
+    "playwright-core",
+  ],
   outputFileTracingIncludes: {
     "/resultado/[id]": ["./data/**/*"],
     "/api/pdf/[id]": [
@@ -45,10 +54,12 @@ const nextConfig: NextConfig = {
       "./vendor/chromium-bin/**/*",
       "./node_modules/puppeteer-core/**/*",
       "./node_modules/@sparticuz/chromium/**/*",
+      "./node_modules/playwright-core/**/*",
     ],
     "src/app/api/pdf/[id]/route": [
       "./vendor/chromium-bin/**/*",
       "./node_modules/@sparticuz/chromium/**/*",
+      "./node_modules/playwright-core/**/*",
     ],
   },
 };

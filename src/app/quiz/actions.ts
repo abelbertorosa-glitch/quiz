@@ -21,7 +21,10 @@ export async function submitQuiz(input: {
       redirect: publicPath(`/resultado/${record.id}`),
     };
   } catch (err) {
-    const message = err instanceof Error ? err.message : "submit_failed";
-    return { ok: false, error: message };
+    console.error("submit_quiz_failed", err);
+    return {
+      ok: false,
+      error: "Não foi possível gerar o diagnóstico. Tente de novo.",
+    };
   }
 }

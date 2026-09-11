@@ -1,5 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { completeLead, completeQuestions, continueQuiz, fillOficina } from "./helpers";
+import {
+  completeLead,
+  completeQuestions,
+  completeQuestionsUntilMechanics,
+  continueQuiz,
+  fillOficina,
+} from "./helpers";
 
 test.describe("Diagnóstico", () => {
   test("home has one-line title, start CTA and privacy footer", async ({
@@ -70,6 +76,23 @@ test.describe("Diagnóstico", () => {
     await expect(page.getByRole("heading", { name: "Sobre você" })).toBeVisible();
   });
 
+  test("mechanic stepper is centered in the card", async ({ page }) => {
+    await page.goto("/diagnostico/quiz");
+    await completeLead(page);
+    await completeQuestionsUntilMechanics(page);
+    const heading = page.getByRole("heading", { name: /mecânicos/i });
+    await expect(heading).toBeVisible();
+    const card = page.locator(".quiz-card");
+    const stepper = page.locator(".quiz-ask__stepper");
+    const cardBox = await card.boundingBox();
+    const stepBox = await stepper.boundingBox();
+    expect(cardBox && stepBox).toBeTruthy();
+    const cardMid = cardBox!.x + cardBox!.width / 2;
+    const stepMid = stepBox!.x + stepBox!.width / 2;
+    expect(Math.abs(stepMid - cardMid)).toBeLessThan(16);
+    await card.screenshot({ path: "output/stepper-card.png" });
+  });
+
   test("full diagnostic yields result and PDF", async ({ page }) => {
     test.setTimeout(180_000);
     await page.goto("/diagnostico/quiz");
@@ -81,6 +104,18 @@ test.describe("Diagnóstico", () => {
     ).toBeVisible();
     await expect(page.getByText("Oficina Central")).toBeVisible();
     await expect(page.getByText("Ana Silva")).toBeVisible();
+    await expect(page.getByText("Quatro eixos")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Visão geral" })).toBeVisible();
+    await expect(page.getByLabel("Nota geral")).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^Financeiro/ })).toHaveCount(0);
+    await page.getByRole("button", { name: "Continuar" }).click();
+    await expect(page.getByRole("heading", { name: /^Financeiro/ })).toBeVisible();
+    await expect(page.getByText("Custo fixo sobre o faturamento")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Visão geral" })).toHaveCount(0);
+    await page.locator(".laudo-doc").screenshot({ path: "output/resultado-painel.png" });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect(page.getByRole("heading", { name: /^Financeiro/ })).toBeVisible();
+    await page.screenshot({ path: "output/resultado-mobile.png", fullPage: true });
     const pdf = page.getByRole("link", { name: "Baixar PDF" });
     await expect(pdf).toBeVisible();
     const href = await pdf.getAttribute("href");

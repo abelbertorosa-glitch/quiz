@@ -571,7 +571,7 @@ function PerguntaStep({
   } else if (kind === "stepper") {
     const n = typeof value === "number" ? value : (min ?? 1);
     input = (
-      <div className="flex items-center gap-4">
+      <div className="quiz-ask__stepper">
         <button
           type="button"
           className="stepper-btn"

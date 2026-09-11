@@ -14,11 +14,13 @@
     "test:e2e": "playwright test",
     "dev:lp": "npx --yes serve lp -p 4173",
     "pack:hostinger": "node scripts/pack-hostinger.mjs",
-    "deploy:vercel": "bash scripts/deploy-vercel.sh"
+    "deploy:vercel": "bash scripts/deploy-vercel.sh",
+    "deploy:vps": "bash scripts/deploy-vps.sh"
   },
   "dependencies": {
     "@sparticuz/chromium": "148.0.0",
     "next": "16.3.3",
+    "playwright-core": "1.62.1",
     "puppeteer-core": "^25.9.0",
     "react": "19.2.8",
     "react-dom": "19.2.8"

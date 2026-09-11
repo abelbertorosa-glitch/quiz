@@ -50,13 +50,13 @@ next-env.d.ts
 
 # leads locais
 /data/responses.json
+/data/responses/
 
 # screenshots e dumps de browser
 .playwright-cli/
 /output/
 
 # notas locais e arquivos que o Next recria no `next dev`
-HANDOFF.md
 HANDOFF.local.md
 AGENTS.md
 CLAUDE.md

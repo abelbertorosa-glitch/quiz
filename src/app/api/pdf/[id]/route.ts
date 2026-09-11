@@ -14,11 +14,13 @@ function getInternalPrintBases(req: Request): string[] {
   if (process.env.VERCEL_URL?.trim()) {
     raw.push(`https://${process.env.VERCEL_URL.trim()}/diagnostico`);
   }
-  if (process.env.NEXT_PUBLIC_BASE_URL?.trim()) {
-    raw.push(process.env.NEXT_PUBLIC_BASE_URL.trim());
-  }
   const origin = new URL(req.url).origin;
-  raw.push(`${origin}/diagnostico`);
+  if (!process.env.PDF_INTERNAL_BASE_URL?.trim()) {
+    if (process.env.NEXT_PUBLIC_BASE_URL?.trim()) {
+      raw.push(process.env.NEXT_PUBLIC_BASE_URL.trim());
+    }
+    raw.push(`${origin}/diagnostico`);
+  }
 
   const seen = new Set<string>();
   const out: string[] = [];

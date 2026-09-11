@@ -1,6 +1,10 @@
 import { cpSync, existsSync, mkdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 
+if (process.env.SKIP_CHROMIUM_COPY === "1") {
+  process.exit(0);
+}
+
 const root = process.cwd();
 const src = join(root, "node_modules", "@sparticuz", "chromium", "bin");
 const dest = join(root, "vendor", "chromium-bin");

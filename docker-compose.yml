@@ -1,0 +1,50 @@
+name: quiz-cambel
+
+services:
+  quiz:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_ORIGIN: ${NEXT_PUBLIC_SITE_ORIGIN:-https://quiz.cambel.srv.br}
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL:-https://quiz.cambel.srv.br/diagnostico}
+    container_name: quiz-cambel-app
+    restart: unless-stopped
+    init: true
+    shm_size: "1gb"
+    environment:
+      DATA_DIR: /data
+      PDF_INTERNAL_BASE_URL: http://127.0.0.1:3000/diagnostico
+      NEXT_PUBLIC_SITE_ORIGIN: ${NEXT_PUBLIC_SITE_ORIGIN:-https://quiz.cambel.srv.br}
+      NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL:-https://quiz.cambel.srv.br/diagnostico}
+    volumes:
+      - quiz_data:/data
+    expose:
+      - "3000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/diagnostico').then(r=>process.exit(r.status<500?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 20s
+      timeout: 5s
+      retries: 8
+      start_period: 40s
+
+  web:
+    image: nginx:1.27-alpine
+    container_name: quiz-cambel-web
+    restart: unless-stopped
+    ports:
+      - "3060:80"
+    volumes:
+      - ./lp:/usr/share/nginx/html:ro
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      quiz:
+        condition: service_healthy
+
+volumes:
+  quiz_data:

@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+dist
+output
+test-results
+playwright-report
+vendor/chromium-bin
+HANDOFF.md
+HANDOFF.local.md
+.playwright-cli
+.vercel
+*.md
+!lp/README.md
+e2e
+data/responses.json
+data/responses

@@ -31,6 +31,10 @@ export async function gerarPdfDaUrl(url: string): Promise<Buffer> {
   if (isServerless) {
     return withRetry(() => gerarPdfServerless(url), 2, `serverless:${url}`);
   }
+  const bin = process.env.CHROMIUM_PATH?.trim();
+  if (bin) {
+    return withRetry(() => gerarPdfWithBin(url, bin), 2, `bin:${url}`);
+  }
   return gerarPdfLocal(url);
 }
 
@@ -106,9 +110,44 @@ async function gerarPdfServerless(url: string): Promise<Buffer> {
   }
 }
 
+async function gerarPdfWithBin(url: string, executablePath: string): Promise<Buffer> {
+  const puppeteer = (await import("puppeteer-core")).default;
+  const browser = await puppeteer.launch({
+    args: [
+      "--hide-scrollbars",
+      "--disable-web-security",
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+    ],
+    executablePath,
+    headless: true,
+    defaultViewport: { width: 1024, height: 1400, deviceScaleFactor: 2 },
+  });
+  try {
+    const page = await browser.newPage();
+    const resp = await page.goto(url, {
+      waitUntil: "domcontentloaded",
+      timeout: 90_000,
+    });
+    if (resp && (resp.status() >= 400 || resp.status() === 0)) {
+      throw new Error(`print_page_http_${resp.status()}: ${url}`);
+    }
+    await new Promise((r) => setTimeout(r, 800));
+    const pdf = await page.pdf({
+      format: "A4",
+      printBackground: true,
+      margin: { top: "12mm", bottom: "12mm", left: "10mm", right: "10mm" },
+    });
+    return Buffer.from(pdf);
+  } finally {
+    await browser.close();
+  }
+}
+
 async function gerarPdfLocal(url: string): Promise<Buffer> {
   const { chromium } = await import(
-    /* turbopackIgnore: true */ /* webpackIgnore: true */ "@playwright/test"
+    /* turbopackIgnore: true */ /* webpackIgnore: true */ "playwright-core"
   );
   const browser = await chromium.launch({
     headless: true,

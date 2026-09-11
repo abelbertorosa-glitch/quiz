@@ -312,6 +312,15 @@ body:has(.quiz-screen) {
   gap: 0.4rem;
 }
 
+.quiz-ask__stepper {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .card {
   background: var(--card);
   border-radius: 10px;
@@ -380,6 +389,452 @@ body:has(.quiz-screen) {
     height: auto;
     max-height: calc(100svh - 1.5rem);
     margin: auto;
+  }
+}
+
+.laudo-page {
+  padding: 1.1rem 1.15rem 2.2rem;
+}
+
+.laudo-doc {
+  max-width: 72rem;
+  margin: 0 auto;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 28px 56px -24px rgba(28, 31, 36, 0.32);
+  padding: 1.1rem 1.25rem 1.4rem;
+}
+
+.laudo-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 3px solid var(--orange);
+}
+
+.laudo-who {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.laudo-who h1 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  line-height: 1.15;
+  color: var(--navy);
+}
+
+.laudo-who p {
+  margin: 0.2rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.laudo-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-left: auto;
+}
+
+.laudo-actions .btn-primary,
+.laudo-actions .btn-ghost {
+  min-height: 42px;
+  padding: 0.5rem 1rem;
+}
+
+.laudo-progress {
+  padding: 0.85rem 0 0.15rem;
+}
+
+.laudo-progress .kicker {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.laudo-progress .kicker span {
+  color: var(--muted);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.laudo-progress-bars {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.laudo-progress-bars button {
+  flex: 1;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--line);
+  cursor: pointer;
+}
+
+.laudo-progress-bars button.is-done,
+.laudo-progress-bars button.is-now {
+  background: var(--teal);
+}
+
+.laudo-progress-bars button.is-now {
+  background: var(--orange);
+}
+
+.laudo-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.laudo-cards-read {
+  grid-template-columns: 1fr;
+}
+
+.laudo-close-ok {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.laudo-close-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.1rem;
+}
+
+.laudo-sec {
+  padding: 1.35rem 0 0.4rem;
+}
+
+.laudo-sec:last-of-type {
+  border-bottom: 0;
+}
+
+.laudo-sec h2 {
+  margin: 0 0 0.9rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-size: 1.15rem;
+  color: var(--navy);
+}
+
+.laudo-sec h2 span {
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.laudo-overview {
+  display: grid;
+  grid-template-columns: 10.5rem minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 1.1rem 1.25rem;
+  align-items: start;
+}
+
+.laudo-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.laudo-ring {
+  width: 8.4rem;
+  height: 8.4rem;
+}
+
+.laudo-ring-track {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 8;
+}
+
+.laudo-ring-value {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 54px 54px;
+}
+
+.laudo-ring-n {
+  font-size: 22px;
+  font-weight: 800;
+  fill: var(--navy);
+}
+
+.laudo-ring-sub {
+  font-size: 9px;
+  font-weight: 600;
+  fill: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.laudo-verdict {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.laudo-counts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 0.7rem;
+  margin: 0.1rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.laudo-counts li {
+  white-space: nowrap;
+}
+
+.laudo-counts b {
+  color: var(--navy);
+}
+
+.laudo-cats,
+.laudo-money {
+  min-width: 0;
+}
+
+.laudo-bars {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.laudo-bars li {
+  display: grid;
+  grid-template-columns: 7.2rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--navy);
+}
+
+.laudo-bars b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.laudo-bars-money li {
+  grid-template-columns: 5.4rem minmax(0, 1fr) auto;
+}
+
+.laudo-bar-track {
+  display: block;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.laudo-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--teal);
+}
+
+.laudo-bar-fill.is-real {
+  background: var(--orange);
+}
+
+.laudo-bar-fill.is-goal {
+  background: var(--blue);
+}
+
+.laudo-custo {
+  margin-top: 0.7rem;
+}
+
+.laudo-custo-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--navy);
+}
+
+.laudo-custo-track {
+  position: relative;
+  height: 10px;
+  margin-top: 0.32rem;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.laudo-custo-zone {
+  position: absolute;
+  left: calc(25 / 60 * 100%);
+  width: calc(7 / 60 * 100%);
+  top: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--teal) 45%, white);
+}
+
+.laudo-custo-mark {
+  position: absolute;
+  top: -3px;
+  width: 4px;
+  height: 16px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: var(--navy);
+}
+
+.laudo-custo p,
+.laudo-custo-na {
+  margin: 0.32rem 0 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.laudo-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.laudo-kpi {
+  min-width: 0;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 70%, white);
+}
+
+.laudo-kpi.is-ok {
+  border-color: color-mix(in srgb, var(--teal) 40%, var(--line));
+}
+
+.laudo-kpi.is-off {
+  border-color: color-mix(in srgb, var(--orange) 35%, var(--line));
+}
+
+.laudo-kpi-value {
+  margin: 0.2rem 0 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
+.laudo-kpi-hint {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.laudo-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.laudo-cards.laudo-cards-read {
+  grid-template-columns: 1fr;
+}
+
+.laudo-card {
+  padding: 0.9rem 1rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 45%, white);
+}
+
+.laudo-card.tier-atencao {
+  border-color: color-mix(in srgb, var(--alert) 30%, var(--line));
+}
+
+.laudo-card.tier-mediano {
+  border-color: color-mix(in srgb, var(--warn) 30%, var(--line));
+}
+
+.laudo-card h3 {
+  margin: 0.2rem 0 0;
+  font-size: 1rem;
+  color: var(--navy);
+}
+
+.laudo-card p:last-child {
+  margin: 0.45rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.laudo-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+.laudo-foot p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--navy);
+}
+
+.laudo-foot .kicker {
+  margin-right: 0.55rem;
+}
+
+@media (max-width: 900px) {
+  .laudo-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .laudo-score {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.8rem 1.1rem;
+  }
+
+  .laudo-kpis,
+  .laudo-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .laudo-ring {
+    width: 6.2rem;
+    height: 6.2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .laudo-page {
+    padding: 0.6rem;
+  }
+
+  .laudo-kpis {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

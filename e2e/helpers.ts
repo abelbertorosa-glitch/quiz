@@ -70,7 +70,7 @@ async function fillMoney(page: Page, digits: string, shown: RegExp) {
   await expect(input).toHaveValue(shown);
 }
 
-export async function completeQuestions(page: Page) {
+export async function completeQuestionsUntilMechanics(page: Page) {
   await expect(page.getByRole("heading", { name: /custo fixo/i })).toBeVisible();
   await fillMoney(page, "3000000", /30\.000,00/);
   await continueQuiz(page);
@@ -91,6 +91,10 @@ export async function completeQuestions(page: Page) {
   await continueQuiz(page);
 
   await expect(page.getByRole("heading", { name: /mecânicos/i })).toBeVisible();
+}
+
+export async function completeQuestions(page: Page) {
+  await completeQuestionsUntilMechanics(page);
   await setStepper(page, 2);
   await continueQuiz(page);
 
