@@ -2,6 +2,7 @@ import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Answers, Lead, ResponseRecord, Utm } from "@/lib/types";
 import { diagnosticar } from "@/lib/scoring/engine";
+import { syncToRdStation } from "@/lib/rdstation";
 
 const ID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -46,6 +47,7 @@ export async function createResponse(
   };
   await writeAtomic(fileFor(record.id), JSON.stringify(record));
   await syncToSheets(record);
+  await syncToRdStation(record);
   return record;
 }
 

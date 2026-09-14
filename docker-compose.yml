@@ -16,6 +16,10 @@ services:
       PDF_INTERNAL_BASE_URL: http://127.0.0.1:3000/diagnostico
       NEXT_PUBLIC_SITE_ORIGIN: ${NEXT_PUBLIC_SITE_ORIGIN:-https://quiz.cambel.srv.br}
       NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL:-https://quiz.cambel.srv.br/diagnostico}
+      RD_STATION_API_KEY: ${RD_STATION_API_KEY:-}
+      RD_STATION_PUBLIC_TOKEN: ${RD_STATION_PUBLIC_TOKEN:-}
+      RD_STATION_PRIVATE_TOKEN: ${RD_STATION_PRIVATE_TOKEN:-}
+      RD_STATION_CONVERSION_IDENTIFIER: ${RD_STATION_CONVERSION_IDENTIFIER:-diagnostico-oficina-quiz}
     volumes:
       - quiz_data:/data
     expose:

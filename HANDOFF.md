@@ -1,6 +1,6 @@
 # HANDOFF — Quiz Cambel + LP
 
-**Atualizado em:** 2026-09-11  
+**Atualizado em:** 2026-09-14  
 **Para:** Gui (continuar daqui)  
 **Leia isto + `docs/BRIEFING.md` antes de mexer.**
 
@@ -148,7 +148,7 @@ PLAYWRIGHT_BASE_URL=https://quiz.cambel.srv.br pnpm exec playwright test e2e/dia
 
 - Pixels / WhatsApp / GTM na LP
 - Foto real no painel navy da LP
-- Destino do lead (RD / planilha / e-mail) — hoje só volume Docker
+- RD Station: **no ar**. Token público no `.env` da VPS; diagnóstico concluído vira conversão `diagnostico-oficina-quiz`. Doc: `docs/RD-STATION.md`. Planilha/WhatsApp ainda não.
 - Aula de faturamento diário (não gravada; sem link)
 - Let's Encrypt na origem (hoje self-signed atrás do Cloudflare; SSL Flexible/Full)
 - Certificado origin Cloudflare se quiserem Full Strict
@@ -164,7 +164,9 @@ Pendências do briefing: enunciado P1/P2 (valor aberto vs faixa); resultado agor
 | `src/app/quiz/` | Quiz (form + server action) |
 | `src/components/diagnostico/ResultadoPassos.tsx` | Laudo passo a passo (cliente) |
 | `src/components/diagnostico/ResultadoPainel.tsx` | PDF/print + gráficos |
-| `src/lib/data/store.ts` | Persistência `/data/{id}.json` |
+| `src/lib/data/store.ts` | Persistência `/data/{id}.json` + envio RD |
+| `src/lib/rdstation.ts` | Conversão RD Station (API Key) |
+| `docs/RD-STATION.md` | Integração RD: endpoint, campos, env |
 | `src/lib/scoring/` | Motor + textos do laudo |
 | `lp/` | Landing |
 | `docker-compose.yml` + `Dockerfile` | App na VPS |

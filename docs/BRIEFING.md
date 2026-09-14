@@ -31,6 +31,6 @@ Aula de faturamento diário: **ainda não gravada** — não colocar link.
 ## Pendências
 
 1. P1/P2: enunciado pede R$ aberto; o laudo também fala em “valor central de faixa”. Base usa campo aberto.
-2. Destino do lead (RD Station / planilha / WhatsApp).
+2. Destino do lead: RD Station no ar (`docs/RD-STATION.md`). Planilha/WhatsApp ainda não.
 3. Domínio final da LP e da Vercel.
 4. Resultado: tela única (base atual) vs score por categoria.
