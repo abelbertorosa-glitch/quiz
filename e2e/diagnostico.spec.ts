@@ -4,6 +4,7 @@ import {
   completeQuestions,
   completeQuestionsUntilMechanics,
   continueQuiz,
+  expectGtm,
   fillOficina,
 } from "./helpers";
 
@@ -30,6 +31,13 @@ test.describe("Diagnóstico", () => {
       "href",
       /icon\.png|logo-cambel/,
     );
+  });
+
+  test("GTM container is on home, quiz and privacy", async ({ page }) => {
+    for (const path of ["/diagnostico", "/diagnostico/quiz", "/diagnostico/privacidade"]) {
+      await page.goto(path);
+      await expectGtm(page);
+    }
   });
 
   test("privacy page has Cambel LGPD copy", async ({ page }) => {
@@ -107,6 +115,7 @@ test.describe("Diagnóstico", () => {
     await expect(page.getByText("Quatro eixos")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Visão geral" })).toBeVisible();
     await expect(page.getByLabel("Nota geral")).toBeVisible();
+    await expectGtm(page);
     await expect(page.getByRole("heading", { name: /^Financeiro/ })).toHaveCount(0);
     await page.getByRole("button", { name: "Continuar" }).click();
     await expect(page.getByRole("heading", { name: /^Financeiro/ })).toBeVisible();

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import {
+  GoogleTagManager,
+  GoogleTagManagerNoScript,
+} from "@/components/GoogleTagManager";
 
 const sans = Poppins({
   variable: "--font-poppins",
@@ -27,7 +31,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`${sans.variable} h-full antialiased`}>
+      <GoogleTagManager />
       <body className={`${sans.className} flex min-h-full flex-col`}>
+        <GoogleTagManagerNoScript />
         {children}
       </body>
     </html>

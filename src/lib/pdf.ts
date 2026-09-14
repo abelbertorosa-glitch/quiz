@@ -14,6 +14,33 @@ const UNSAFE_PRINT_HOSTS = [
   /cambelcontabilidade\.com\.br/i,
 ];
 
+/** Trackers não devem disparar no Chromium que gera o PDF (pageview falso). */
+const BLOCKED_PRINT_REQUESTS =
+  /googletagmanager|google-analytics|facebook\.net|fbevents|doubleclick|hotjar|vercel\.live|speed-insights/i;
+
+type InterceptablePage = {
+  setRequestInterception(value: boolean): Promise<void>;
+  on(
+    event: "request",
+    handler: (req: {
+      url(): string;
+      abort(): Promise<void>;
+      continue(): Promise<void>;
+    }) => void,
+  ): unknown;
+};
+
+async function blockTrackers(page: InterceptablePage): Promise<void> {
+  await page.setRequestInterception(true);
+  page.on("request", (req) => {
+    if (BLOCKED_PRINT_REQUESTS.test(req.url())) {
+      void req.abort();
+      return;
+    }
+    void req.continue();
+  });
+}
+
 function resolveChromiumBinDir(): string {
   const candidates = [
     path.join(process.cwd(), "vendor", "chromium-bin"),
@@ -78,19 +105,7 @@ async function gerarPdfServerless(url: string): Promise<Buffer> {
   });
   try {
     const page = await browser.newPage();
-    await page.setRequestInterception(true);
-    page.on("request", (req) => {
-      const u = req.url();
-      if (
-        /googletagmanager|google-analytics|facebook\.net|fbevents|doubleclick|hotjar|vercel\.live|speed-insights/i.test(
-          u,
-        )
-      ) {
-        void req.abort();
-        return;
-      }
-      void req.continue();
-    });
+    await blockTrackers(page);
     const resp = await page.goto(url, {
       waitUntil: "domcontentloaded",
       timeout: 90_000,
@@ -126,6 +141,7 @@ async function gerarPdfWithBin(url: string, executablePath: string): Promise<Buf
   });
   try {
     const page = await browser.newPage();
+    await blockTrackers(page);
     const resp = await page.goto(url, {
       waitUntil: "domcontentloaded",
       timeout: 90_000,
@@ -159,6 +175,7 @@ async function gerarPdfLocal(url: string): Promise<Buffer> {
       deviceScaleFactor: 2,
     });
     const page = await context.newPage();
+    await page.route(BLOCKED_PRINT_REQUESTS, (route) => route.abort());
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 30_000 });
     const pdf = await page.pdf({
       format: "A4",

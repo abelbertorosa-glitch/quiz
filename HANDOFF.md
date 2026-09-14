@@ -149,6 +149,7 @@ Doc completa: `docs/RD-STATION.md`.
 4. Resultado em **6 passos** (`ResultadoPassos`): visão geral → financeiro → operação → gestão → comercial → próximos passos
 5. PDF via Chromium (`/diagnostico/api/pdf/{id}`)
 6. Lead → RD Station (conversão `diagnostico-oficina-quiz`)
+7. GTM `GTM-TWQ5TDB4` (Andreza, 14/09) na LP (`lp/index.html`) e em todas as páginas do quiz, incluindo o laudo (`src/components/GoogleTagManager.tsx` no root layout). O Chromium do PDF bloqueia `googletagmanager`/pixels para não gerar pageview falso.
 
 Store: `src/lib/data/store.ts` — um arquivo `/data/{uuid}.json` (atômico). Na Vercel isso quebrava (disco serverless); por isso saímos da Vercel.
 
@@ -161,6 +162,7 @@ Store: `src/lib/data/store.ts` — um arquivo `/data/{uuid}.json` (atômico). Na
 - Integração RD Station (token público)
 - Teste confirmado no painel do RD pela Andreza
 - Deploy VPS + push `client/main`
+- GTM `GTM-TWQ5TDB4` na LP + quiz + laudo (pedido da Andreza às 18:10)
 
 ### 11/09
 
@@ -194,7 +196,7 @@ Sem tokens RD no `.env` local, o envio é ignorado (não quebra o quiz).
 
 ## O que ainda não tem / próximo
 
-- Pixels / WhatsApp / GTM na LP
+- WhatsApp na LP (pixels agora entram pelo GTM)
 - Foto real no painel navy da LP
 - Destino extra do lead: planilha / e-mail (RD já está)
 - Aula de faturamento diário (não gravada; sem link)
@@ -214,6 +216,7 @@ Pendências do briefing: enunciado P1/P2 (valor aberto vs faixa); resultado agor
 | `src/components/diagnostico/ResultadoPainel.tsx` | PDF/print + gráficos |
 | `src/lib/data/store.ts` | Persistência `/data/{id}.json` + envio RD |
 | `src/lib/rdstation.ts` | Conversão RD Station (token público) |
+| `src/components/GoogleTagManager.tsx` | Snippet GTM (script + noscript) do quiz |
 | `docs/RD-STATION.md` | Integração RD: endpoint, campos, env |
 | `src/lib/scoring/` | Motor + textos do laudo |
 | `lp/` | Landing |

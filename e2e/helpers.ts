@@ -1,6 +1,25 @@
 import { expect, type Page } from "@playwright/test";
 
 export const LP_URL = "http://localhost:4179";
+export const GTM_ID = "GTM-TWQ5TDB4";
+
+/** Snippet GTM (head) + noscript (body) presentes na página atual. */
+export async function expectGtm(page: Page) {
+  await expect
+    .poll(() =>
+      page.evaluate(
+        (id) =>
+          [...document.scripts].some((s) => s.textContent?.includes(`'${id}'`)),
+        GTM_ID,
+      ),
+    )
+    .toBe(true);
+  // <noscript> não tem innerText com JS ligado; checar o HTML bruto.
+  const noscript = await page.evaluate(() =>
+    [...document.querySelectorAll("noscript")].map((n) => n.textContent).join(""),
+  );
+  expect(noscript).toContain(`ns.html?id=${GTM_ID}`);
+}
 
 export async function fillOficina(page: Page) {
   const empresa = page.getByLabel("Nome da empresa / oficina");

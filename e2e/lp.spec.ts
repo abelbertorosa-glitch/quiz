@@ -1,7 +1,12 @@
 import { expect, test } from "@playwright/test";
-import { LP_URL } from "./helpers";
+import { LP_URL, expectGtm } from "./helpers";
 
 test.describe("LP", () => {
+  test("GTM container is in head and body", async ({ page }) => {
+    await page.goto(`${LP_URL}/`);
+    await expectGtm(page);
+  });
+
   test("collage, sections and header nav fill the viewport", async ({ page }) => {
     await page.goto(`${LP_URL}/`);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
