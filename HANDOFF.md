@@ -2,15 +2,33 @@
 
 **Atualizado em:** 2026-09-14  
 **Para:** Gui (continuar daqui)  
-**Leia isto + `docs/BRIEFING.md` antes de mexer.**
+**Leia isto + `docs/BRIEFING.md` + `docs/RD-STATION.md` antes de mexer.**
 
-Segredos (token Vercel antigo, chaves) ficam em `HANDOFF.local.md` (gitignored). **Não** commitar esse arquivo.
+Segredos (tokens RD, Vercel antigo, chaves) ficam em `HANDOFF.local.md` (gitignored). **Não** commitar esse arquivo.
 
 ---
 
 ## Em uma frase
 
-Diagnóstico empresarial para oficinas: LP + quiz + PDF na **VPS GikaData**, no ar em **https://quiz.cambel.srv.br**. Vercel foi apagada. O laudo é um **passo a passo** (uma seção por vez).
+Diagnóstico empresarial para oficinas: LP + quiz + PDF na **VPS GikaData**, no ar em **https://quiz.cambel.srv.br**. Laudo em **passo a passo**. Todo diagnóstico concluído vai para o **RD Station**. Vercel foi apagada.
+
+---
+
+## Estado agora (14/09)
+
+- Cliente (Abel / Andreza): laudo **aprovado** (“ficou bem legal”, testando, feedback ok)
+- RD Station **no ar**: token público no `.env` da VPS; conversão `diagnostico-oficina-quiz`
+- Andreza confirmou o lead de teste no painel do RD (nome, cargo, empresa, e-mail, celular, 1 conversão, entrou em automação)
+- Código no remoto cliente: `client/main` @ `d4a4db3` (`feat: envia lead do quiz para o RD Station`)
+- `origin` (GitHub interno `alefdssantos/quiz-cambel`) **não respondeu** no push de 14/09 (`repository not found`). Fonte da verdade: remoto `client`
+
+Puxar:
+
+```bash
+git fetch client
+git checkout client
+git pull
+```
 
 ---
 
@@ -34,7 +52,7 @@ HTTPS público é Cloudflare (certificado Google Trust Services em `cambel.srv.b
 | Onde | Valor |
 |------|--------|
 | Local | `/Users/alefsantos/Projetos/quiz-cambel` |
-| GitHub interno | https://github.com/alefdssantos/quiz-cambel (`origin`) |
+| GitHub interno | https://github.com/alefdssantos/quiz-cambel (`origin`) — **inacessível em 14/09** |
 | GitHub cliente | https://github.com/abelbertorosa-glitch/quiz (`client`) |
 | Branch de trabalho | `client` (track `client/main`) |
 
@@ -53,7 +71,7 @@ SSH do repo cliente: host `github-samuelfajreldines01` (chave `~/.ssh/id_ed25519
 | Containers | `quiz-cambel-app` (Next) + `quiz-cambel-web` (nginx LP + proxy) |
 | Porta do app | **3060** → nginx do container (LP `/cambel`, quiz `/diagnostico`) |
 | Volume | Docker `quiz-cambel_quiz_data` → `/data` (um JSON por laudo) |
-| Env no servidor | `/home/deploy/quiz-cambel/.env` |
+| Env no servidor | `/home/deploy/quiz-cambel/.env` (`chmod 600`) |
 
 **Não mexer** nos outros da VPS: gikadata, skopus, giro, blue-prime, taylla, cliente-b/c, comandafacil, maian-expo.
 
@@ -93,14 +111,33 @@ pnpm deploy:vps
 Isso faz rsync para `/home/deploy/quiz-cambel` e `docker compose up -d --build`.  
 O `.env` da VPS **não** deve ser apagado (script exclui `.env`).
 
-`.env` na VPS:
+`.env` na VPS (valores secretos só em `HANDOFF.local.md`):
 
 ```
 NEXT_PUBLIC_SITE_ORIGIN=https://quiz.cambel.srv.br
 NEXT_PUBLIC_BASE_URL=https://quiz.cambel.srv.br/diagnostico
+RD_STATION_PUBLIC_TOKEN=
+RD_STATION_PRIVATE_TOKEN=
+RD_STATION_API_KEY=
+RD_STATION_CONVERSION_IDENTIFIER=diagnostico-oficina-quiz
 ```
 
 PDF interno (Chromium no container): `PDF_INTERNAL_BASE_URL=http://127.0.0.1:3000/diagnostico`.
+
+---
+
+## RD Station
+
+Doc completa: `docs/RD-STATION.md`.
+
+- Andreza (12/09) mandou **token público** + **token privado** (Dados de integração, não API Key da App Store)
+- Conversão usa o **público** em `POST https://api.rd.services/platform/conversions?api_key=`
+- Privado dá **401** nesse endpoint (serve funil/venda; está no `.env` mas o código não usa)
+- Dispara em `createResponse` (diagnóstico gravado). Abandono no meio do form **não** vai
+- Falha no RD **não** trava o laudo (`rdstation_sync_failed` no log)
+- Teste 14/09: HTTP 200, `event_uuid=5bd9cbc3-50bd-4171-8c7f-19b653a543e9`
+- Lead de prova no RD: `teste.integracao.quiz@cambel.srv.br` — **podem apagar**
+- Mailing do teste foi `false` (por isso o aviso amarelo no RD). Lead real do quiz vai com mailing ligado
 
 ---
 
@@ -111,12 +148,21 @@ PDF interno (Chromium no container): `PDF_INTERNAL_BASE_URL=http://127.0.0.1:300
 3. Motor de diagnóstico (`src/lib/scoring/`)
 4. Resultado em **6 passos** (`ResultadoPassos`): visão geral → financeiro → operação → gestão → comercial → próximos passos
 5. PDF via Chromium (`/diagnostico/api/pdf/{id}`)
+6. Lead → RD Station (conversão `diagnostico-oficina-quiz`)
 
 Store: `src/lib/data/store.ts` — um arquivo `/data/{uuid}.json` (atômico). Na Vercel isso quebrava (disco serverless); por isso saímos da Vercel.
 
 ---
 
-## O que foi feito nesta sessão (11/09)
+## Histórico
+
+### 14/09
+
+- Integração RD Station (token público)
+- Teste confirmado no painel do RD pela Andreza
+- Deploy VPS + push `client/main`
+
+### 11/09
 
 - Cliente: perguntas ok, **laudo não voltava**; prazo de ~2 semanas até a feira
 - Causa: persistência em arquivo na Vercel
@@ -142,13 +188,15 @@ E2E de produção:
 PLAYWRIGHT_BASE_URL=https://quiz.cambel.srv.br pnpm exec playwright test e2e/diagnostico.spec.ts --grep "full diagnostic"
 ```
 
+Sem tokens RD no `.env` local, o envio é ignorado (não quebra o quiz).
+
 ---
 
 ## O que ainda não tem / próximo
 
 - Pixels / WhatsApp / GTM na LP
 - Foto real no painel navy da LP
-- RD Station: **no ar**. Token público no `.env` da VPS; diagnóstico concluído vira conversão `diagnostico-oficina-quiz`. Doc: `docs/RD-STATION.md`. Planilha/WhatsApp ainda não.
+- Destino extra do lead: planilha / e-mail (RD já está)
 - Aula de faturamento diário (não gravada; sem link)
 - Let's Encrypt na origem (hoje self-signed atrás do Cloudflare; SSL Flexible/Full)
 - Certificado origin Cloudflare se quiserem Full Strict
@@ -165,7 +213,7 @@ Pendências do briefing: enunciado P1/P2 (valor aberto vs faixa); resultado agor
 | `src/components/diagnostico/ResultadoPassos.tsx` | Laudo passo a passo (cliente) |
 | `src/components/diagnostico/ResultadoPainel.tsx` | PDF/print + gráficos |
 | `src/lib/data/store.ts` | Persistência `/data/{id}.json` + envio RD |
-| `src/lib/rdstation.ts` | Conversão RD Station (API Key) |
+| `src/lib/rdstation.ts` | Conversão RD Station (token público) |
 | `docs/RD-STATION.md` | Integração RD: endpoint, campos, env |
 | `src/lib/scoring/` | Motor + textos do laudo |
 | `lp/` | Landing |
